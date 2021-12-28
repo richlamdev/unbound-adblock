@@ -1,0 +1,3 @@
+host_ip: "{{ ansible_em1['ipv4'][0].address }}"
+network_addr: "{{ ansible_em1['ipv4'][0].network }}"
+subnet_mask: "{{ ansible_em1['ipv4'][0].netmask }}"

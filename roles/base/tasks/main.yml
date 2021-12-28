@@ -1,0 +1,14 @@
+--- # install python3 to enable all features of ansible
+- name: Check if Python3 is installed
+  raw: python3 --version
+  register: python_exist
+  ignore_errors: True
+
+#- name: Python Exist
+  #debug:
+    #msg: "{{ python_exist }}"
+  #when: "python_exist.rc != 0"
+
+- name: Ensure Python3 is installed
+  raw: pkg_add python3
+  when: python_exist.rc != 0

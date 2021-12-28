@@ -1,0 +1,15 @@
+[prod]
+
+[dev]
+192.168.150.201
+
+# Group 'openbsd' with all hosts
+[openbsd:children]
+dev
+#prod
+
+[openbsd:vars]
+ansible_become=True
+ansible_become_method=sudo
+ansible_become_user=root
+ansible_python_interpreter=/usr/local/bin/python3

@@ -1,0 +1,16 @@
+---
+- name: Playbook desktop start
+  hosts: all
+  become: True
+  become_user: root
+  become_method: su
+  gather_facts: False
+  #vars:
+    #ansible_python_interpreter: /usr/local/bin/python3
+  #tasks:
+  #- include_tasks: tasks/main.yml
+  
+  roles:
+    - role: base
+    - role: unbound
+    - role: unbound-adblock

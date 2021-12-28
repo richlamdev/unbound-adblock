@@ -1,0 +1,24 @@
+---
+#- name: Gather facts
+  #setup:
+
+
+- name: Set _unbound user as owner for /var/unbound/etc folder
+  file:
+   path: /var/unbound/etc
+   owner: _unbound
+   group: "wheel"
+   mode: "0755"
+
+- name: deploy unbound.conf template configuration file
+  template:
+    src: unbound.conf
+    dest: "/var/unbound/etc/"
+    mode: "0644"
+    owner: "root"
+    group: "wheel"
+
+- name: start unbound via service
+  service:
+    name: unbound
+    state: restarted

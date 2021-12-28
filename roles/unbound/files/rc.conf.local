@@ -1,0 +1,4 @@
+# /etc/rc.conf.local
+smtpd_flags=NO
+sndiod_flags=NO
+unbound_flags="-c /var/unbound/etc/unbound.conf"

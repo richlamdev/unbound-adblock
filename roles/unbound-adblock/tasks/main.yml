@@ -1,0 +1,109 @@
+---
+- name: create _adblock user
+  user:
+    name: _adblock
+    shell: /sbin/nologin
+    system: True
+
+- name: unbound-adblock.sh
+  copy:
+    src: unbound-adblock.sh
+    dest: "/usr/local/bin/"
+    mode: "0755"
+    owner: "root"
+    group: "bin"
+
+- name: Install ripgrep and mawk
+  openbsd_pkg:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ripgrep
+    - mawk
+
+- name: Create adblock.rpz
+  file:
+    path: "/var/unbound/db/adblock.rpz"
+    state: touch
+    owner: _adblock
+    group: wheel
+    mode: 0644
+
+- name: Create unbound-adblock directory
+  file:
+    path: "/var/log/unbound-adblock"
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
+
+- name: Create unbound-adblock.log and adblock.log.0.gz
+  file:
+    path: "/var/log/unbound-adblock/{{ item }}"
+    state: touch
+    owner: _adblock
+    group: wheel
+    mode: 0640
+  loop:
+    - unbound-adblock.log
+    - unbound-adblock.log.0.gz
+
+- name: Check if doas.conf exists
+  stat:
+    path: /etc/doas.conf
+  register: doas_file
+
+- name: Update doas.conf permissions
+  blockinfile:
+    path: /etc/doas.conf
+    block: |
+      permit root
+      permit nopass _adblock cmd /usr/sbin/unbound-control args -q status
+      permit nopass _adblock cmd /usr/sbin/unbound-control args -q flush_zone unbound-adblock
+      permit nopass _adblock cmd /usr/sbin/unbound-control args -q auth_zone_reload unbound-adblock
+  when: doas_file.stat.exists
+
+- name: Copy doas.conf file (doas.conf is not present on target host)
+  copy:
+    src: "doas.conf"
+    dest: "/etc/doas.conf"
+    mode: "0644"
+    owner: "root"
+    group: "wheel"
+  when: not doas_file.stat.exists
+
+- name: Enable unbound remote control
+  shell: unbound-control-setup
+
+- name: Update unbound.conf to enable RPZ module and remote-control
+  blockinfile:
+    path: /var/unbound/etc/unbound.conf
+    insertbefore: "forward-zone"
+    block: |
+      # Required modules for RPZ
+      module-config: "respip validator iterator"
+      rpz:
+         name: "unbound-adblock"
+         zonefile: "/var/unbound/db/adblock.rpz"
+         rpz-log: yes
+         rpz-log-name: "unbound-adblock"
+
+      remote-control:
+          control-enable: yes
+          control-interface: 127.0.0.1
+
+- name: start unbound via service
+  service:
+    name: unbound
+    state: restarted
+
+- name: Execute unbound-adblock to parse and load ruleset immediately
+  shell: su -m _adblock /usr/local/bin/unbound-adblock.sh -O openbsd
+
+- name: Set unbound-adblock to run nightly (update block list)
+  cron:
+    name: Set unbound-adblock to run nightly
+    hour: "1"
+    job: "/usr/local/bin/unbound-adblock -O openbsd"
+    state: present
+    user: _adblock

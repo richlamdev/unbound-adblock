@@ -1,0 +1,20 @@
+---
+- name: ca-certificates.crt / root.hints / root.key
+  copy:
+    src: "{{ item }}"
+    dest: "/var/unbound/etc/"
+    mode: "0644"
+    owner: "_unbound"
+    group: "wheel"
+  loop:
+    - ca-certificates.crt
+    - root.hints
+    - root.key
+
+- name: rc.conf.local
+  copy:
+    src: rc.conf.local
+    dest: "/etc/"
+    mode: "0644"
+    owner: "root"
+    group: "wheel"
