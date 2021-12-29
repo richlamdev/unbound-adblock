@@ -1,3 +1,5 @@
-host_ip: "{{ ansible_em1['ipv4'][0].address }}"
-network_addr: "{{ ansible_em1['ipv4'][0].network }}"
-subnet_mask: "{{ ansible_em1['ipv4'][0].netmask }}"
+# replace network interface as required.
+# within vim - :3,5s/re0/em0/g  OR  :3,5s/em0/re0/g
+host_ip: "{{ ansible_em0['ipv4'][0].address }}"
+network_addr: "{{ ansible_em0['ipv4'][0].network }}"
+subnet_mask: "{{ ansible_em0['ipv4'][0].netmask }}"
