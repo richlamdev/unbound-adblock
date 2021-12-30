@@ -22,8 +22,11 @@ Server:
     - preferred practice is to deploy SSH keys
 
 Client:
-- OpenBSD (test with v7.0)
-
+- OpenBSD (tested with v7.0)
+- Python3 package installed, if the unbound-adblock role is deployed independently
+- SSH server enabled
+  - non-privilege user access
+  - root access
 
 ### For newly installed OpenBSD server
 
@@ -54,7 +57,26 @@ considerations section for potential implementation options.*
 
 ### For existing OpenBSD server
 
-The steps are essentially the same as above, however, in addition, edit (comment out) the base and unbound\
-role in the main.yml file at the root of the repo, prior to running the ansible-playbook command.
+The steps are essentially the same as above, however, in addition, edit (comment out) the unbound role
+in the main.yml file at the root of the repo, prior to running the ansible-playbook command.
+
+
+### Brief explanation of each role
+
+#### Base role
+
+Checks presence of Python 3, will install install Python 3, if it is not already installed.
+This role is idempotent.
+
+#### Unbound role
+
+Installs basic unbound recursive DNS server with DNSSEC enabled.
+
+#### Unbound Adblock role
+
+Installs unblock-adblock per the instructions here:
+https://www.geoghegan.ca/pub/unbound-adblock/latest/install/openbsd.txt
+
+## Considerations
 
 
