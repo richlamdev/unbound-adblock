@@ -4,6 +4,7 @@
   raw: python3 --version
   register: python_exist
   ignore_errors: True
+  changed_when: python_exist.rc != 0
 
 #- name: Python Exist
   #debug:

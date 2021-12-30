@@ -91,11 +91,10 @@
       remote-control:
           control-enable: yes
           control-interface: 127.0.0.1
+  notify: reload unbound
 
-- name: start unbound via service
-  service:
-    name: unbound
-    state: restarted
+- name: restart unbound unconditionally
+  meta: flush_handlers
 
 - name: Execute unbound-adblock to parse and load ruleset immediately
   shell: su -m _adblock /usr/local/bin/unbound-adblock.sh -O openbsd
@@ -104,6 +103,7 @@
   cron:
     name: Set unbound-adblock to run nightly
     hour: "1"
+    minute: "0"
     job: "/usr/local/bin/unbound-adblock -O openbsd"
     state: present
     user: _adblock

@@ -17,8 +17,12 @@
     mode: "0644"
     owner: "root"
     group: "wheel"
+  notify: reload unbound
 
-- name: start unbound via service
-  service:
-    name: unbound
-    state: restarted
+- name: restart unbound service unconditionally
+  meta: flush_handlers
+
+#- name: start unbound via service
+  #service:
+    #name: unbound
+    #state: restarted
