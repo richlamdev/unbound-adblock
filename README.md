@@ -6,6 +6,8 @@ The is an Ansible playbook implementiation of the unbound-adblock project for Op
 
 [unbound-adblock - The Ultimate DNS Firewall!](https://www.geoghegan.ca/unbound-adblock.html)
 
+Thank you, Jordan!
+
 The primary objective is to enable an existing OpenBSD system with unbound-adblock.
 
 unbound-adblock is very similar to the [Pi-Hole project](https://pi-hole.net).
@@ -25,6 +27,7 @@ Server:
 Client:
 - OpenBSD (tested with v7.0)
 - Python3, if the unbound-adblock role is deployed independent of the base role here
+  - the base role will check for Python 3, if it's not installed, it will proceed to install it
 - SSH server enabled
   - non-privilege user access
   - root access
@@ -73,6 +76,10 @@ This role is idempotent.
 
 Installs unbound recursive DNS server with DNSSEC enabled.  This role is not idempotent when\
 executed with the unbound-adblock role.
+
+A great resource for unbound configuration is here:
+
+[Unbound DNS Tutorial](https://calomel.org/unbound_dns.html)
 
 #### Unbound Adblock role
 
