@@ -20,10 +20,11 @@ Server:
   - notes:
     - sshpass has potential security concerns, and is not a best practice to use
     - preferred practice is to deploy and utilize SSH keys (assuming minimum Ansible requirements are met)
+    - to install sshpass on Debian based Linux ```sudo apt install sshpass```
 
 Client:
 - OpenBSD (tested with v7.0)
-- Python3 package installed, if the unbound-adblock role is deployed independently
+- Python3, if the unbound-adblock role is deployed independent of the base role here
 - SSH server enabled
   - non-privilege user access
   - root access
@@ -93,5 +94,6 @@ escalation is achieved via su.  During testing, doas privilege escalation via An
 3. Python is a requirement for Ansible.  (to use the full potential of modules, which will enable idempotency)
 Refer to information provided under base role above.
 
-4. If you considering to use this playbook as a starting point to deploy an OpenBSD server, there are\
-several features and services you should consider.  (pf firewall, ntp, syslog, dhcp etc)
+4. If you are considering to use this playbook as a starting point to deploy an OpenBSD server, there are\
+several features and services you should consider.  (pf firewall, ntp, syslog, dhcp etc).  In addition, review the DNS servers\
+configured to send DNS over TLS queries in the template file, main.yml located at unbound-adblock/rols/unbound/templates/.\
