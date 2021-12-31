@@ -70,27 +70,28 @@ This role is idempotent.
 
 #### Unbound role
 
-Installs basic unbound recursive DNS server with DNSSEC enabled.  This role is not 100% idempotent when\
-executed with unbound-adblock role.
+Installs unbound recursive DNS server with DNSSEC enabled.  This role is not idempotent when\
+executed with the unbound-adblock role.
 
 #### Unbound Adblock role
 
 Installs unblock-adblock per the instructions here:
 https://www.geoghegan.ca/pub/unbound-adblock/latest/install/openbsd.txt
 This role is not idempotent when run in with the unbound role above.  This role could be modified to\
-achieve such a reqirement, by amalgamating the unbound and unbound-adblock role.  This was not implemented
-in the first place, as unbound configurations are subject to your own requirements/use case/environment.
+be idempotent by amalgamating the unbound and unbound-adblock role.  This was not implemented as\
+unbound configurations are subject to your own requirement/use case/environment.
 
-## General Information & Considerations
+## Notes, General Information & Considerations
 
-1. The primary goal was to install the minimum amount of software / third party packges, to align with\
-OpenBSD principle of security first. (less software, less potential for vulnerabilities, as well as more easily audited)
+1. Aside from the objective to deploy unbound-adblock, a secondary goal was to minimize installation of additional software.\
+The intention was to remain aligned with OpenBSD principle's of security first. (less software, less potential for vulnerabilities)
 
 2. As mentioned above, sudo is not installed or assumed to be installed for the execution of this playbook.  Privilege\
-escalation is achieved via sudo.  During testing, doas privilege escalation via Ansible did not appear to work.\
-(at least I was unsuccessful in my attempts)
+escalation is achieved via su.  During testing, doas privilege escalation via Ansible did not work.\
+(I was unsuccessful in my attempts.)
 
-3. Python is a requirement for Ansible.  (at least to use the full potential of modules, which will enable idempotency)
+3. Python is a requirement for Ansible.  (to use the full potential of modules, which will enable idempotency)
 Refer to information provided under base role above.
 
-
+4. If you considering to use this playbook as a starting point to deploy an OpenBSD server, there are\
+several features and services you should consider.  (pf firewall, ntp, syslog, dhcp etc)
