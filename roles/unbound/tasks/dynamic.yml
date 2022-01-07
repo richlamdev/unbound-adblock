@@ -1,8 +1,4 @@
 ---
-#- name: Gather facts
-  #setup:
-
-
 - name: Set _unbound user as owner for /var/unbound/etc folder
   file:
    path: /var/unbound/etc
@@ -21,8 +17,3 @@
 
 - name: restart unbound service unconditionally
   meta: flush_handlers
-
-#- name: start unbound via service
-  #service:
-    #name: unbound
-    #state: restarted

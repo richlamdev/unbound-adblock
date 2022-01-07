@@ -2,12 +2,5 @@
 - name: Gather facts via setup
   setup:
 
-#- name: Print network address
-  #debug:
-    #msg:
-     #- "{{ ansible_re0['ipv4'][0].address }}"
-     #- "{{ ansible_re0['ipv4'][0].network }}"
-     #- "{{ ansible_re0['ipv4'][0].netmask }}"
-
 - include: static.yml
 - include: dynamic.yml
