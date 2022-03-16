@@ -104,3 +104,9 @@ Refer to information provided under base role above.
 4. If you are considering to use this playbook as a starting point to deploy an OpenBSD server, there are\
 several features and services you should consider.  (pf firewall, ntp, syslog, dhcp etc).  In addition, review the DNS servers\
 configured to send DNS over TLS queries in the template file, main.yml located at unbound-adblock/rols/unbound/templates/.\
+
+5. You may consider using this [Vagrant file](https://github.com/richlamdev/vagrant-openbsd) to start an OpenBSD virtual machine to test this playbook.
+This Vagrant file also creates a Ubuntu 20.04 virtual machine on the same network (subnet) to test DNS queries (allows/blocks) via the configured OpenBSD test virtual machine.
+The setup.sh forces the root password of each virtual machine to be password1. (obviously not secure, but for the purposes of testing and life of these virtual machines, not so much an issue)
+
+Naturally, you will need Vagrant and VirtualBox, information beyond the scope of this repo.
