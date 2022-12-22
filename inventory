@@ -1,7 +1,7 @@
 [prod]
 
 [dev]
-192.168.150.201
+192.168.13.201
 
 # Group 'openbsd' with all hosts
 [openbsd:children]

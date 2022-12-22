@@ -59,6 +59,7 @@ sudo installed, consequently, privilege escalation is achieved via su, as oppose
 is established via non-privileged user by SSH, followed by the root password for privilege escalation.  See below\
 considerations section for potential implementation options.*
 
+
 ### For existing OpenBSD server
 
 The steps are essentially the same as above, however, in addition, edit (comment out) the unbound role
@@ -72,6 +73,7 @@ in the main.yml file at the root of the repo, prior to running the ansible-playb
 Checks presence of Python 3, will install install Python 3, if it is not already installed.
 This role is idempotent.
 
+
 #### Unbound role
 
 Installs unbound recursive DNS server with DNSSEC enabled.  This role is not idempotent when\
@@ -81,13 +83,15 @@ A great resource for unbound configuration is here:
 
 [Unbound DNS Tutorial](https://calomel.org/unbound_dns.html)
 
+
 #### Unbound Adblock role
 
 Installs unblock-adblock per the instructions here:
 https://www.geoghegan.ca/pub/unbound-adblock/latest/install/openbsd.txt
 This role is not idempotent when run in with the unbound role above.  This role could be modified to\
 be idempotent by amalgamating the unbound and unbound-adblock role.  This was not implemented as\
-unbound configurations are subject to your own requirement/use case/environment.
+unbound configurations are subject to your own requirements and/or use case.
+
 
 ## Notes, General Information & Considerations
 
@@ -103,10 +107,11 @@ Refer to information provided under base role above.
 
 4. If you are considering to use this playbook as a starting point to deploy an OpenBSD server, there are\
 several features and services you should consider.  (pf firewall, ntp, syslog, dhcp etc).  In addition, review the DNS servers\
-configured to send DNS over TLS queries in the template file, main.yml located at unbound-adblock/rols/unbound/templates/.\
+configured to send DNS over TLS queries in the template file, main.yml located at unbound-adblock/rols/unbound/templates/.
 
-5. You may consider using this [Vagrant file](https://github.com/richlamdev/vagrant-openbsd) to start an OpenBSD virtual machine to test this playbook.
-This Vagrant file also creates a Ubuntu 20.04 virtual machine on the same network (subnet) to test DNS queries (allows/blocks) via the configured OpenBSD test virtual machine.
+5. This [Vagrant file](https://github.com/richlamdev/vagrant-files/blob/main/openbsd/Vagrantfile) works with this repo to start an OpenBSD virtual machine for testing.
+This Vagrant file can be amended to create a Ubuntu 20.04 virtual machine on the same network (subnet) to test DNS queries (allows/blocks) via the configured OpenBSD test virtual machine.
+Uncomment the bottom part of the Vagrant file.
 The setup.sh forces the root password of each virtual machine to be password1. (obviously not secure, but for the purposes of testing and life of these virtual machines, not so much an issue)
 
 Naturally, you will need Vagrant and VirtualBox, information beyond the scope of this repo.
