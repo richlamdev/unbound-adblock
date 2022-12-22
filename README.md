@@ -43,7 +43,7 @@ Edit inventory file at the root of the repo to reflect the hostname and/or IP to
 Edit the vars file at role/unbound/vars/main.yml, to appropriately reflect the network device of the server you\
 will be deploying to.
 
-```ansible-playbook main.yml -kKu <username>```
+```ansible-playbook main.yml -bkKu <username>```
 
 Enter the <username> password when prompted:
 
