@@ -13,13 +13,46 @@
     owner: "root"
     group: "bin"
 
-- name: Install ripgrep and mawk
-  openbsd_pkg:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - ripgrep
-    - mawk
+# openbsd_pkg is broken as of OpenBSD 7.4
+# - name: Install ripgrep and mawk
+#   openbsd_pkg:
+#     name: "{{ item }}"
+#     state: present
+#   loop:
+#     - ripgrep
+#     - mawk
+
+- name: Check if mawk is installed
+  raw: mawk --version
+  register: mawk_exist
+  failed_when: False
+  changed_when: False
+  #ignore_errors: True
+
+# - name: mawk exist
+#   debug:
+#     msg: "{{ mawk_exist }}"
+#   when: mawk_exist.rc != 0
+
+- name: Ensure mawk is installed
+  raw: 'su root -c "pkg_add mawk"'
+  when: mawk_exist.rc != 0
+
+- name: Check if ripgrep is installed
+  raw: rg --version
+  register: ripgrep_exist
+  failed_when: False
+  changed_when: False
+  #ignore_errors: True
+
+# - name: ripgrep exist
+#   debug:
+#     msg: "{{ ripgrep_exist }}"
+#   when: ripgrep_exist.rc != 0
+
+- name: Ensure ripgrep is installed
+  raw: 'su root -c "pkg_add ripgrep"'
+  when: ripgrep_exist.rc != 0
 
 - name: Create adblock.rpz
   file:
