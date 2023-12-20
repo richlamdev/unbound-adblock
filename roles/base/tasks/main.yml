@@ -16,3 +16,27 @@
 - name: Ensure Python3 is installed
   raw: 'su root -c "pkg_add python3"'
   when: python_exist.rc != 0
+
+# add musical tunes for startup and shutdown
+- name: deploy imperial.sh / flagpole.sh
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/"
+    mode: 0555
+    owner: root
+    group: wheel
+  loop:
+    - imperial.sh
+    - flagpole.sh
+
+# ensure tunes are played for startup and shutdown
+- name: deploy rc.local / rc.shutdown
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/"
+    mode: 0640
+    owner: root
+    group: wheel
+  loop:
+    - rc.local
+    - rc.shutdown
