@@ -1,0 +1,10 @@
+# in my setup, I use the following three lines to correct any issues
+# from syspatch updates
+#chown _unbound:wheel /var/unbound/etc
+#/usr/sbin/unbound-anchor -a "/var/unbound/etc/root.key"
+#/etc/rc.d/unbound restart
+
+/usr/local/bin/flagpole.sh
+
+echo
+
