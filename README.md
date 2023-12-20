@@ -71,6 +71,7 @@ in the main.yml file at the root of the repo, prior to running the ansible-playb
 #### Base role
 
 Checks presence of Python 3, will install install Python 3, if it is not already installed.
+Add tunes for startup and shutdown.
 This role is idempotent.
 
 
